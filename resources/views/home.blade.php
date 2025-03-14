@@ -104,14 +104,19 @@
                                 <li><i class="fas fa-ruler me-2"></i> <strong>Size:</strong> {{ $shoe->size }}</li>
                                 <li><i class="fas fa-dollar-sign me-2"></i> <strong>Price:</strong> ${{ number_format($shoe->price, 2) }}</li>
                             </ul>
+
+                            <!-- Conditionally show return button -->
+                            @if($shoe->can_be_returned)
                             <div class="text-center">
-                                <form action="{{ route('returns.create', $shoe->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-undo-alt"></i> Return Item
-                                    </button>
-                                </form>
-                            </div>
+                            <form action="{{ route('returns.create', $shoe->id) }}" method="GET">
+    <button type="submit" class="btn btn-primary">Request Return</button>
+</form>
+
+</div>
+
+
+
+                            @endif
                         </div>
                     </div>
                 </div>

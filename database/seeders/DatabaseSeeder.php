@@ -20,5 +20,8 @@ class DatabaseSeeder extends Seeder
 
         // Call the ShoesSeeder to populate the shoes table
         $this->call(ShoesSeeder::class);
+
+        // Call the ShoeReturnabilitySeeder to update the 'can_be_returned' column
+        $this->call(ShoeReturnabilitySeeder::class);
     }
 }

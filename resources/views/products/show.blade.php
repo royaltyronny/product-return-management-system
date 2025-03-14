@@ -14,11 +14,17 @@
                 <li><strong>Size:</strong> {{ $shoe->size }}</li>
                 <li><strong>Price:</strong> ${{ number_format($shoe->price, 2) }}</li>
             </ul>
-            <form action="{{ route('returns.create') }}" method="POST" class="mt-3">
-                @csrf
-                <input type="hidden" name="shoe_id" value="{{ $shoe->id }}">
-                <button type="submit" class="btn btn-danger">Return Item</button>
-            </form>
+
+            <!-- Show Return Item button only if the shoe can be returned -->
+            @if($shoe->can_be_returned)
+                <form action="{{ route('returns.create') }}" method="POST" class="mt-3">
+                    @csrf
+                    <input type="hidden" name="shoe_id" value="{{ $shoe->id }}">
+                    <button type="submit" class="btn btn-danger">Return Item</button>
+                </form>
+            @else
+                <p class="text-muted mt-3">This item cannot be returned.</p>
+            @endif
         </div>
     </div>
 </div>
