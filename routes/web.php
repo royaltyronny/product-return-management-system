@@ -4,11 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReturnController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportConntroller;
 use App\Http\Controllers\Auth\ConfirmPasswordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PageController; // Added import for PageController
+use App\Http\Controllers\ReturnReportController;
+use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\ContactController;
 
 // Disable default login routes if using custom ones
 Auth::routes(['login' => false]);
@@ -33,10 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
-    Route::middleware('auth')->group(function () {
-        Route::get('/returns', [ReturnController::class, 'index'])->name('returns.index');
-        Route::get('/returns/create/{shoe}', [ReturnController::class, 'create'])->name('returns.create');
-        Route::post('/returns/store/{shoe}', [ReturnController::class, 'store'])->name('returns.store');
+   
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -50,7 +50,14 @@ Route::middleware('auth')->group(function () {
 
     // About Page
     Route::get('/about', [PageController::class, 'about'])->name('about');
-    Route::get('/shoes/{shoe}/returns/create', [ReturnController::class, 'create'])->name('returns.create');
-    Route::post('/shoes/{shoe}/returns', [ReturnController::class, 'store'])->name('returns.store');
+
+    Route::get('/return', [ReturnController::class, 'index'])->name('returns.return');
+    Route::post('/report', [ReturnController::class, 'store'])->name('returns.store');
+    Route::get('/returns/reports', [ReturnController::class, 'create'])->name('returns.reports');
+    Route::get('/returns/reports', [ReturnController::class, 'show'])->name('returns.reportss');
+
+    Route::get('/services', [ServicesController::class, 'services'])->name('services');
+    Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
+    
     
 });

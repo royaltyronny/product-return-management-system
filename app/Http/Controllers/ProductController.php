@@ -28,7 +28,7 @@ class ProductController extends Controller
         // Retrieve all shoes and randomize whether they can be returned
         $shoes = Shoe::all()->map(function ($shoe) {
             // Randomize returnable status, 50% chance to be returnable
-            $shoe->can_return = rand(0, 1) === 1; // Random true/false
+            $shoe->can_be_returned = rand(0, 1) === 1; // Random true/false
             return $shoe;
         });
 

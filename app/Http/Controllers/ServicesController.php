@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class PageController extends Controller
+class ServicesController extends Controller
 {
-    public function about(): View
+    public function services(): View
     {
-        return view('layouts.about');
+        return view('layouts.services');
     }
 }

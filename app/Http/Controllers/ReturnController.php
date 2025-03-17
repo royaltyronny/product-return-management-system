@@ -2,77 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{ReturnRequest, Shoe, PickupStation};
-use Illuminate\Http\{Request};
-use Illuminate\Support\Facades\{Storage, Log, Auth};
+use App\Models\Shoe;
+use Illuminate\Http\Request;
+use App\Models\ReturnModel;
+use App\Models\ProductReturn;
+
 
 class ReturnController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    // Show all return requests
     public function index()
-    {
-        $returnRequests = ReturnRequest::where('user_id', Auth::id())->paginate(10);
-        return view('returns.index', compact('returnRequests'));
+{
+    $returns = ReturnModel::all(); // Or any other query to get returns
+    return view('returns.return', compact('returns'));
+}
+public function store(Request $request)
+{
+    // Validate inputs
+    $validated = $request->validate([
+        'reason' => 'required|string|max:1000',
+        'evidence' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
+    ]);
+
+    // Handle evidence upload
+    $evidencePath = null;
+    if ($request->hasFile('evidence')) {
+        $evidencePath = $request->file('evidence')->store('evidence', 'public');
     }
 
-    // Show the return form
-    public function create(Shoe $shoe)
-    {
-        if (!$shoe->can_be_returned) {
-            return redirect()->route('products.show', $shoe->id)
-                ->with('error', 'This item cannot be returned.');
-        }
+    // Create the return record
+    ProductReturn::create([
+        'reason' => $validated['reason'],
+        'evidence' => $evidencePath,
+    ]);
+    $returns = ProductReturn::all(); 
 
-        // Fetch pickup stations dynamically (optional)
-        $pickupStations = PickupStation::pluck('name')->toArray();
+    // Redirect back with success message
+    return view('returns.report',compact('returns'))->with('success', 'Return request submitted successfully.');
+}
+public function show()
+{
+    $returns = ProductReturn::all(); // Fetch all returns
+    return view('returns.report', compact('returns'));
+}
 
-        return view('returns.create', compact('shoe', 'pickupStations'));
-    }
-
-    // Store the return request
-    public function store(Request $request, Shoe $shoe)
-    {
-        if (!$shoe->can_be_returned) {
-            return redirect()->route('products.show', $shoe->id)
-                ->with('error', 'This item cannot be returned.');
-        }
-
-        $validated = $request->validate([
-            'reason' => 'required|string|in:Defective,Wrong Size,Wrong Product,Other|max:255',
-            'image_evidence' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'pickup_station' => 'required|string|max:100',
-            'refund_method' => 'required|string|in:Store Credit,Original Payment Method|max:255',
-        ]);
-
-        $imagePath = null;
-        if ($request->hasFile('image_evidence')) {
-            $imagePath = $request->file('image_evidence')->store('returns', 'public');
-        }
-
-        try {
-            ReturnRequest::create([
-                'shoe_id' => $shoe->id,
-                'user_id' => Auth::id(),
-                'reason' => $validated['reason'],
-                'image_path' => $imagePath,
-                'pickup_station' => $validated['pickup_station'],
-                'refund_method' => $validated['refund_method'],
-                'status' => 'pending',
-            ]);
-
-            $shoe->update(['status' => 'returned']);
-
-            return redirect()->route('returns.index')
-                ->with('success', 'Return request created successfully.');
-        } catch (\Exception $e) {
-            Log::error('Failed to create return request: ' . $e->getMessage());
-            return redirect()->route('returns.index')
-                ->with('error', 'Failed to create return request. Please try again.');
-        }
-    }
 }

@@ -121,14 +121,14 @@
 
                         <!-- Services -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ route('services') }}">
                                 <i class="fas fa-cogs"></i> Services
                             </a>
                         </li>
 
                         <!-- Contact -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ route('contact') }}">
                                 <i class="fas fa-envelope"></i> Contact
                             </a>
                         </li>

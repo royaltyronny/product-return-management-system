@@ -24,4 +24,7 @@ class DatabaseSeeder extends Seeder
         // Call the ShoeReturnabilitySeeder to update the 'can_be_returned' column
         $this->call(ShoeReturnabilitySeeder::class);
     }
+    $this->call(UserSeeder::class);
+    
+
 }
