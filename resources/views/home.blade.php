@@ -69,22 +69,59 @@
 <div class="d-flex">
     <!-- Sidebar -->
     <div id="sidebar" class="d-flex flex-column">
-        <a href="{{ route('dashboard') }}">
-            <i class="fas fa-tachometer-alt fa-lg"></i>
-            <span class="link-text">Dashboard</span>
-        </a>
-        <a href="{{ route('returns.reportss') }}">
-            <i class="fas fa-file-alt fa-lg"></i>
-            <span class="link-text">Return Report</span>
-        </a>
+        @auth
+            <a href="{{ route('dashboard') }}">
+                <i class="fas fa-tachometer-alt fa-lg"></i>
+                <span class="link-text">Dashboard</span>
+            </a>
+            <a href="{{ route('returns.index') }}">
+                <i class="fas fa-file-alt fa-lg"></i>
+                <span class="link-text">My Returns</span>
+            </a>
+        @endauth
+        
         <a href="{{ route('products.index') }}">
             <i class="fas fa-shoe-prints fa-lg"></i>
             <span class="link-text">Shoe Collection</span>
         </a>
+        
+        @auth
+            @if(Auth::user()->isAdmin() || Auth::user()->isSupportAgent())
+                <!-- Admin Section Divider -->
+                <div class="border-top border-light my-3"></div>
+                <div class="px-3 mb-2">
+                    <span class="link-text small text-white-50">ADMIN SECTION</span>
+                </div>
+                
+                <a href="{{ route('admin.returns.index') }}">
+                    <i class="fas fa-tasks fa-lg"></i>
+                    <span class="link-text">Manage Returns</span>
+                </a>
+                <a href="{{ route('admin.returns.reports') }}">
+                    <i class="fas fa-chart-bar fa-lg"></i>
+                    <span class="link-text">Return Analytics</span>
+                </a>
+            @endif
+        @endauth
     </div>
 
     <!-- Main Content -->
     <div id="main-content" class="container py-4 flex-grow-1">
+        @auth
+            @if(Auth::user()->isAdmin() || Auth::user()->isSupportAgent())
+                <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-shield me-2 fa-lg"></i>
+                        <div>
+                            <strong>Welcome, {{ Auth::user()->role === 'admin' ? 'Administrator' : 'Support Agent' }}!</strong>
+                            <p class="mb-0">You have access to the admin return management system. Use the sidebar or navigation menu to access <a href="{{ route('admin.returns.index') }}" class="alert-link">Return Management</a> and <a href="{{ route('admin.returns.reports') }}" class="alert-link">Return Analytics</a>.</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+        @endauth
+        
         <h1 class="mb-4 text-center">
             <i class="fas fa-shoe-prints"></i> Shoe Collection
         </h1>
@@ -109,7 +146,7 @@
                             @if($shoe->can_be_returned)
                             <div class="text-center">
                             
-    <a href= "{{ route('returns.return') }}" class="btn btn-primary">Request Return</a>
+    <a href="{{ route('returns.create', ['product_id' => $shoe->id]) }}" class="btn btn-primary">Request Return</a>
 </div>
 
 

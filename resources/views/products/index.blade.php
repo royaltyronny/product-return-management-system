@@ -73,7 +73,7 @@
             <i class="fas fa-tachometer-alt fa-lg"></i>
             <span class="link-text">Dashboard</span>
         </a>
-        <a href="{{ route('returns.reportss') }}">
+        <a href="{{ route('returns.index') }}">
             <i class="fas fa-file-alt fa-lg"></i>
             <span class="link-text">Return Report</span>
         </a>
@@ -109,7 +109,7 @@
                             @if($shoe->can_be_returned)
                             <div class="text-center">
                             
-    <a href= "{{ route('returns.return') }}" class="btn btn-primary">Request Return</a>
+    <a href="{{ route('returns.create', ['product_id' => $shoe->id]) }}" class="btn btn-primary">Request Return</a>
 </div>
 
 

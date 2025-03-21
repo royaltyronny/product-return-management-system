@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -85,5 +86,22 @@ class ProfileController extends Controller
 
         return redirect()->route('profile.view')
                          ->with('success', 'Profile updated successfully');
+    }
+    
+    /**
+     * Show the user's order history.
+     */
+    public function orders(Request $request)
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+        
+        // Get the user's orders with pagination
+        $orders = $user->orders()
+            ->with(['orderItems.product'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+            
+        return view('profile.orders', compact('orders'));
     }
 }
