@@ -206,8 +206,8 @@
             </div>
             
             <div class="mt-3">
-                <a href="{{ route('profile.view') }}" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left me-2"></i> Back to Profile
+                <a href="{{ route('returns.index') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i> see your returns.
                 </a>
             </div>
         </div>

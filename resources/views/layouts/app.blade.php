@@ -51,6 +51,9 @@
         .navbar-nav .nav-link:hover {
             color: #b2dfdb;
         }
+        .navbar-nav .nav-link[href*="services"]:hover {
+            color: #b2dfdb;
+        }
         .search-input {
             border-radius: 20px;
             max-width: 300px;

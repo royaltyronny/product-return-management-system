@@ -57,10 +57,14 @@
     #sidebar:hover + #main-content {
         margin-left: 200px;
     }
+    #sidebar:hover {
+    color: #b2dfdb;
+    }
+
 
     /* Product Card Body Background */
     .card-body {
-        background-color:rgb(151, 231, 243) !important; /* Nude color */
+        background-color: rgb(151, 231, 243) !important; /* Nude color */
         border-radius: 0 0 10px 10px;
         padding: 1rem;
     }
@@ -80,10 +84,6 @@
             </a>
         @endauth
         
-        <a href="{{ route('products.index') }}">
-            <i class="fas fa-shoe-prints fa-lg"></i>
-            <span class="link-text">Shoe Collection</span>
-        </a>
         
         @auth
             @if(Auth::user()->isAdmin() || Auth::user()->isSupportAgent())
@@ -121,46 +121,35 @@
                 </div>
             @endif
         @endauth
-        
-        <h1 class="mb-4 text-center">
-            <i class="fas fa-shoe-prints"></i> Shoe Collection
-        </h1>
-
         <div class="row">
-            @forelse($shoes as $shoe)
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-lg border-0">
-                        <a href="{{ route('products.show', $shoe->id) }}" class="text-decoration-none text-dark">
-                            <img src="{{ $shoe->image_url }}" class="card-img-top" alt="{{ $shoe->name }}" style="height: 220px; object-fit: cover; border-bottom: 3px solid #00796b;">
-                        </a>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-info text-white">
+                            <h3><i class="fas fa-shopping-bag me-2"></i> Your Orders</h3>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title text-center fw-bold">{{ $shoe->name }}</h5>
-                            <p class="card-text text-muted">{{ Str::limit($shoe->description, 100) }}</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-palette me-2"></i> <strong>Color:</strong> {{ $shoe->color }}</li>
-                                <li><i class="fas fa-ruler me-2"></i> <strong>Size:</strong> {{ $shoe->size }}</li>
-                                <li><i class="fas fa-dollar-sign me-2"></i> <strong>Price:</strong> ${{ number_format($shoe->price, 2) }}</li>
-                            </ul>
-
-                            <!-- Conditionally show return button -->
-                            @if($shoe->can_be_returned)
-                            <div class="text-center">
-                            
-    <a href="{{ route('returns.create', ['product_id' => $shoe->id]) }}" class="btn btn-primary">Request Return</a>
-</div>
-
-
-
-                            @endif
+                            <p>View your order history, track shipments, and initiate returns.</p>
+                            <a href="http://127.0.0.1:8000/profile/orders" class="btn btn-outline-info">
+                                <i class="fas fa-list me-2"></i> View Orders
+                            </a>
                         </div>
                     </div>
                 </div>
-            @empty
-                <div class="col-12 text-center">
-                    <p class="text-muted"><i class="fas fa-box-open"></i> No shoes found.</p>
+                
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-success text-white">
+                            <h3><i class="fas fa-undo-alt me-2"></i> Your Returns</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Track the status of your return requests and manage refunds.</p>
+                            <a href="http://127.0.0.1:8000/returns" class="btn btn-outline-success">
+                                <i class="fas fa-exchange-alt me-2"></i> View Returns
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            @endforelse
-        </div>
+            </div>
     </div>
 </div>
 @endsection
