@@ -1,9 +1,47 @@
-/* app.scss or app.css */
+/* Tailwind Base Styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* You can still add custom styles below */
+/* Custom Global Styles */
 body {
-  font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Additional Custom Styles (Organized) */
+
+/* Example: Custom Button Styling */
+.btn-custom {
+    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #003c8f;
+}
+
+/* Example: Custom Card Styling */
+.card {
+    @apply bg-white shadow-lg rounded-lg p-6;
+    border: 1px solid #e5e7eb;
+}
+
+/* Example: Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Utility Classes for Reuse */
+.text-primary {
+    color: #1d4ed8; /* Tailwind's Blue-700 */
+}
+
+.bg-primary {
+    background-color: #1d4ed8;
 }
