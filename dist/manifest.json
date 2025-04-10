@@ -1,0 +1,29 @@
+{
+  "_vendor-zCiuftgv.js": {
+    "file": "assets/vendor-zCiuftgv.js",
+    "name": "vendor"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CccqS0V6.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-zCiuftgv.js"
+    ]
+  },
+  "resources/js/components/ExampleComponent.vue": {
+    "file": "assets/ExampleComponent-BtdnmQ_a.js",
+    "name": "ExampleComponent",
+    "src": "resources/js/components/ExampleComponent.vue",
+    "isEntry": true,
+    "imports": [
+      "_vendor-zCiuftgv.js"
+    ]
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-BVAydkI1.css",
+    "src": "resources/sass/app.scss",
+    "isEntry": true
+  }
+}

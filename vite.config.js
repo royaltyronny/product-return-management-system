@@ -40,7 +40,8 @@ export default defineConfig({
         },
     },
     build: {
-        // Enable code splitting for optimization
+        // Ensure the output directory is 'dist'
+        outDir: 'dist', 
         rollupOptions: {
             output: {
                 manualChunks: {
